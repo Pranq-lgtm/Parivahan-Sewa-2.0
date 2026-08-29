@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parivahan Sewa - Service Portal</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    
+    <!-- Tailwind CSS for modern utility-first styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome for standard icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e3a8a',   // Navy Blue (Trust, official Govt identity)
+                        secondary: '#ea580c', // Deep Saffron/Orange (Action buttons, highlights)
+                        accent: '#059669',    // Emerald Green (Success states, verification)
+                        bgLight: '#f8fafc',   // Off-White/Light Gray
+                        textDark: '#334155',  // Dark Slate (High contrast for readability)
+                        topbar: '#1e293b'     // Dark slate topbar
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Roboto', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="antialiased flex flex-col min-h-screen bg-bgLight text-textDark">
+
+    <!-- ======================================================= -->
+    <!-- Component 1: Utility Top-Bar                            -->
+    <!-- ======================================================= -->
+    <div class="bg-topbar text-gray-200 text-xs min-h-[32px] flex items-center justify-between px-4 lg:px-8 border-b border-slate-700">
+        <!-- Accessibility Controls (Desktop) -->
+        <div class="flex items-center space-x-3 hidden md:flex">
+            <a href="index.html" class="hover:text-white flex items-center px-1 font-medium">
+                <i class="fas fa-home mr-1 text-orange-400"></i> Main Portal Home
+            </a>
+            <span class="text-gray-600">|</span>
+            <a href="service.html?id=screen-reader" class="hover:text-white min-h-[32px] flex items-center px-1" aria-label="Screen Reader Access">
+                <i class="fas fa-volume-up mr-1.5 text-orange-400"></i> Screen Reader
+            </a>
+            <div class="flex items-center space-x-1 border-l border-gray-600 pl-3 h-6">
+                <button id="btnDecreaseText" class="hover:text-white px-1 font-semibold text-xs" aria-label="Decrease Text Size">A-</button>
+                <button id="btnNormalText" class="hover:text-white px-1 font-semibold text-xs" aria-label="Normal Text Size">A</button>
+                <button id="btnIncreaseText" class="hover:text-white px-1 font-semibold text-xs" aria-label="Increase Text Size">A+</button>
+            </div>
+            <button id="btnHighContrast" class="hover:text-white border-l border-gray-600 pl-3 flex items-center px-1 text-xs" aria-label="High Contrast">
+                <i class="fas fa-adjust mr-1.5 text-yellow-400"></i> High Contrast
+            </button>
+        </div>
+
+        <!-- Language & Unified Login -->
+        <div class="flex items-center space-x-3 ml-auto">
+            <label for="langSelect" class="sr-only">Choose Language</label>
+            <select id="langSelect" class="bg-slate-800 text-gray-200 border border-slate-600 rounded px-2 py-1 focus:ring-2 focus:ring-secondary cursor-pointer hover:text-white text-xs min-h-[36px]">
+                <option value="en">English</option>
+                <option value="hi">हिन्दी (Hindi)</option>
+            </select>
+            <a href="login.html" id="unifiedLoginBtn" class="bg-secondary hover:bg-orange-700 text-white px-4 py-1.5 rounded font-semibold text-xs transition shadow-sm flex items-center min-h-[36px]">
+                <i class="fas fa-sign-in-alt mr-1.5"></i> Unified Login
+            </a>
+        </div>
+    </div>
+
+    <!-- ======================================================= -->
+    <!-- Component 2: Main Header                                -->
+    <!-- ======================================================= -->
+    <header class="sticky top-0 z-40 bg-white shadow-md min-h-[72px] flex items-center justify-between px-4 lg:px-8 border-b border-gray-100">
+        <!-- Logo Area -->
+        <a href="index.html" class="flex items-center space-x-3 cursor-pointer py-2 focus:ring-2 focus:ring-primary rounded">
+            <div class="w-12 h-14 bg-blue-50 border border-blue-200 flex flex-col items-center justify-center rounded shadow-xs">
+                <i class="fas fa-landmark text-primary text-xl"></i>
+                <span class="text-[8px] font-bold text-primary tracking-tighter mt-0.5">सत्यमेव जयते</span>
+            </div>
+            <div>
+                <span class="text-2xl font-extrabold text-primary tracking-tight leading-none flex items-center">
+                    Parivahan <span class="text-secondary ml-1 font-semibold">Sewa</span>
+                </span>
+                <p class="text-[10px] text-gray-500 font-semibold uppercase tracking-wider hidden sm:block mt-0.5">
+                    Ministry of Road Transport & Highways, Govt. of India
+                </p>
+            </div>
+        </a>
+
+        <!-- Desktop Navigation Architecture -->
+        <nav class="hidden lg:flex items-center space-x-1 font-medium text-sm text-textDark" aria-label="Main Navigation">
+            
+            <!-- Dropdown 1: Driving License -->
+            <div class="group relative cursor-pointer py-6 px-3 hover:text-primary transition">
+                <span class="flex items-center">
+                    Driving License <i class="fas fa-chevron-down text-[10px] ml-1.5 text-gray-400 group-hover:text-primary transition-transform group-hover:rotate-180"></i>
+                </span>
+                <div class="absolute top-[70px] left-0 hidden group-hover:block bg-white shadow-xl border-t-4 border-primary w-64 py-2 rounded-b-lg transition z-50 border border-gray-100">
+                    <a href="service.html?id=apply-learner-permanent" class="block px-4 py-2.5 hover:bg-blue-50 hover:text-primary text-sm flex items-center"><i class="fas fa-id-card-alt text-primary w-5 mr-2"></i> Apply Learner/Permanent</a>
+                    <a href="service.html?id=renew-license" class="block px-4 py-2.5 hover:bg-blue-50 hover:text-primary text-sm flex items-center"><i class="fas fa-redo text-primary w-5 mr-2"></i> Renew License</a>
+                    <a href="service.html?id=duplicate-license" class="block px-4 py-2.5 hover:bg-blue-50 hover:text-primary text-sm flex items-center"><i class="fas fa-copy text-primary w-5 mr-2"></i> Duplicate License</a>
+                    <a href="service.html?id=international-permit-idp" class="block px-4 py-2.5 hover:bg-blue-50 hover:text-primary text-sm flex items-center"><i class="fas fa-globe text-primary w-5 mr-2"></i> International Permit (IDP)</a>
+                    <a href="service.html?id=track-status" class="block px-4 py-2.5 hover:bg-blue-50 hover:text-primary text-sm flex items-center"><i class="fas fa-search-location text-primary w-5 mr-2"></i> Track Status</a>
+                    <a href="service.html?id=mock-driving-tests" class="block px-4 py-2.5 hover:bg-blue-50 hover:text-primary text-sm flex items-center"><i class="fas fa-question-circle text-primary w-5 mr-2"></i> Mock Driving Tests</a>
+                </div>
+            </div>
+
+            <!-- Dropdown 2: Vehicle Registration -->
+            <div class="group relative cursor-pointer py-6 px-3 hover:text-primary transition">
+                <span class="flex items-center">
+                    Vehicle Registration <i class="fas fa-chevron-down text-[10px] ml-1.5 text-gray-400 group-hover:text-primary transition-transform group-hover:rotate-180"></i>
+                </span>
+                <div class="absolute top-[70px] left-0 hidden group-hover:block bg-white shadow-xl border-t-4 border-primary w-64 py-2 rounded-b-lg transition z-50 border border-gray-100">
+                    <a href="service.html?id=new-temp-registration" class="block px-4 py-2.5 hover:bg-blue-50 hover:text-primary text-sm flex items-center"><i class="fas fa-car text-primary w-5 mr-2"></i> New/Temp Registration</a>
+                    <a href="service.html?id=transfer-ownership" class="block px-4 py-2.5 hover:bg-blue-50 hover:text-primary text-sm flex items-center"><i class="fas fa-exchange-alt text-primary w-5 mr-2"></i> Transfer Ownership</a>
+                    <a href="service.html?id=change-address" class="block px-4 py-2.5 hover:bg-blue-50 hover:text-primary text-sm flex items-center"><i class="fas fa-map-marker-alt text-primary w-5 mr-2"></i> Change Address</a>
+                    <a href="service.html?id=renew-duplicate-rc" class="block px-4 py-2.5 hover:bg-blue-50 hover:text-primary text-sm flex items-center"><i class="fas fa-sync text-primary w-5 mr-2"></i> Renew/Duplicate RC</a>
+                    <a href="service.html?id=fancy-choice-number" class="block px-4 py-2.5 hover:bg-blue-50 hover:text-primary text-sm flex items-center"><i class="fas fa-star text-primary w-5 mr-2"></i> Fancy / Choice Number</a>
+                </div>
+            </div>
+
+            <!-- Dropdown 3: Commercial & Transport -->
+            <div class="group relative cursor-pointer py-6 px-3 hover:text-primary transition">
+                <span class="flex items-center">
+                    Commercial & Transport <i class="fas fa-chevron-down text-[10px] ml-1.5 text-gray-400 group-hover:text-primary transition-transform group-hover:rotate-180"></i>
+                </span>
+                <div class="absolute top-[70px] left-0 hidden group-hover:block bg-white shadow-xl border-t-4 border-primary w-60 py-2 rounded-b-lg transition z-50 border border-gray-100">
+                    <a href="service.html?id=commercial-permits" class="block px-4 py-2.5 hover:bg-blue-50 hover:text-primary text-sm flex items-center"><i class="fas fa-file-contract text-primary w-5 mr-2"></i> Commercial Permits</a>
+                    <a href="service.html?id=fitness-testing" class="block px-4 py-2.5 hover:bg-blue-50 hover:text-primary text-sm flex items-center"><i class="fas fa-tachometer-alt text-primary w-5 mr-2"></i> Fitness Testing</a>
+                    <a href="service.html?id=vehicle-scrapping" class="block px-4 py-2.5 hover:bg-blue-50 hover:text-primary text-sm flex items-center"><i class="fas fa-recycle text-primary w-5 mr-2"></i> Vehicle Scrapping</a>
+                    <a href="service.html?id=trade-certificates" class="block px-4 py-2.5 hover:bg-blue-50 hover:text-primary text-sm flex items-center"><i class="fas fa-certificate text-primary w-5 mr-2"></i> Trade Certificates</a>
+                </div>
+            </div>
+
+            <!-- Dropdown 4: Compliance -->
+            <div class="group relative cursor-pointer py-6 px-3 hover:text-primary transition">
+                <span class="flex items-center">
+                    Compliance <i class="fas fa-chevron-down text-[10px] ml-1.5 text-gray-400 group-hover:text-primary transition-transform group-hover:rotate-180"></i>
+                </span>
+                <div class="absolute top-[70px] left-0 hidden group-hover:block bg-white shadow-xl border-t-4 border-primary w-60 py-2 rounded-b-lg transition z-50 border border-gray-100">
+                    <a href="service.html?id=echallan-fines" class="block px-4 py-2.5 hover:bg-blue-50 hover:text-primary text-sm flex items-center"><i class="fas fa-file-invoice-dollar text-primary w-5 mr-2"></i> eChallan (Fines)</a>
+                    <a href="service.html?id=pucc-pollution-status" class="block px-4 py-2.5 hover:bg-blue-50 hover:text-primary text-sm flex items-center"><i class="fas fa-smog text-primary w-5 mr-2"></i> PUCC (Pollution Status)</a>
+                    <a href="service.html?id=vehicle-recall" class="block px-4 py-2.5 hover:bg-blue-50 hover:text-primary text-sm flex items-center"><i class="fas fa-exclamation-triangle text-primary w-5 mr-2"></i> Vehicle Recall</a>
+                </div>
+            </div>
+
+            <!-- Dropdown 5: Information & Help -->
+            <div class="group relative cursor-pointer py-6 px-3 hover:text-primary transition">
+                <span class="flex items-center">
+                    Information & Help <i class="fas fa-chevron-down text-[10px] ml-1.5 text-gray-400 group-hover:text-primary transition-transform group-hover:rotate-180"></i>
+                </span>
+                <div class="absolute top-[70px] right-0 hidden group-hover:block bg-white shadow-xl border-t-4 border-primary w-60 py-2 rounded-b-lg transition z-50 border border-gray-100">
+                    <a href="service.html?id=motor-vehicle-acts-rules" class="block px-4 py-2.5 hover:bg-blue-50 hover:text-primary text-sm flex items-center"><i class="fas fa-gavel text-primary w-5 mr-2"></i> Motor Vehicle Acts & Rules</a>
+                    <a href="service.html?id=user-fees-charges" class="block px-4 py-2.5 hover:bg-blue-50 hover:text-primary text-sm flex items-center"><i class="fas fa-money-bill-wave text-primary w-5 mr-2"></i> User Fees & Charges</a>
+                    <a href="service.html?id=downloadable-forms" class="block px-4 py-2.5 hover:bg-blue-50 hover:text-primary text-sm flex items-center"><i class="fas fa-file-download text-primary w-5 mr-2"></i> Downloadable Forms</a>
+                    <a href="service.html?id=national-dashboards" class="block px-4 py-2.5 hover:bg-blue-50 hover:text-primary text-sm flex items-center"><i class="fas fa-chart-line text-primary w-5 mr-2"></i> National Dashboards</a>
+                    <a href="service.html?id=faqs-helpdesk" class="block px-4 py-2.5 hover:bg-blue-50 hover:text-primary text-sm flex items-center"><i class="fas fa-question text-primary w-5 mr-2"></i> FAQs & Helpdesk</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Search Input Header -->
+        <div class="hidden xl:flex items-center relative">
+            <input type="text" id="globalSearchInput" placeholder="Search services, forms, rules..." aria-label="Global Search" class="border border-gray-300 rounded-full py-2 pl-4 pr-10 text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-blue-100 w-64 bg-gray-50 transition">
+            <button class="absolute right-2 text-gray-400 hover:text-primary min-h-[44px] min-w-[36px] flex items-center justify-center" aria-label="Submit Search">
+                <i class="fas fa-search text-sm"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button id="mobileMenuToggle" class="lg:hidden text-2xl text-primary p-2 min-h-[44px] min-w-[44px] flex items-center justify-center rounded hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary" aria-label="Open mobile menu">
+            <i class="fas fa-bars"></i>
+        </button>
+    </header>
+
+    <!-- Mobile Slide-over Drawer -->
+    <div id="mobileMenuDrawer" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true">
+        <div id="mobileMenuBackdrop" class="fixed inset-0 bg-black/60 backdrop-blur-xs"></div>
+        <div class="fixed top-0 right-0 bottom-0 w-80 max-w-full bg-white shadow-2xl p-6 overflow-y-auto flex flex-col justify-between">
+            <div>
+                <div class="flex items-center justify-between pb-4 border-b border-gray-200">
+                    <span class="font-bold text-primary text-lg">Parivahan Menu</span>
+                    <button id="mobileMenuClose" class="text-gray-500 hover:text-gray-800 p-2 min-h-[44px] min-w-[44px] flex items-center justify-center" aria-label="Close menu">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                
+                <div class="mt-6 space-y-4 text-sm font-medium">
+                    <div class="border-b pb-3">
+                        <span class="text-xs uppercase text-gray-400 font-bold tracking-wider">Driving License</span>
+                        <div class="mt-2 space-y-2 pl-2">
+                            <a href="service.html?id=apply-learner-permanent" class="block py-1 hover:text-primary">Apply Learner/Permanent</a>
+                            <a href="service.html?id=renew-duplicate-license" class="block py-1 hover:text-primary">Renew / Duplicate License</a>
+                            <a href="service.html?id=track-dl-application" class="block py-1 hover:text-primary">Track DL Application</a>
+                        </div>
+                    </div>
+
+                    <div class="border-b pb-3">
+                        <span class="text-xs uppercase text-gray-400 font-bold tracking-wider">Vehicle Registration</span>
+                        <div class="mt-2 space-y-2 pl-2">
+                            <a href="service.html?id=transfer-ownership" class="block py-1 hover:text-primary">Transfer Ownership</a>
+                            <a href="service.html?id=renew-duplicate-rc" class="block py-1 hover:text-primary">Renew / Duplicate RC</a>
+                            <a href="service.html?id=address-change" class="block py-1 hover:text-primary">Address Change</a>
+                        </div>
+                    </div>
+
+                    <div class="border-b pb-3">
+                        <span class="text-xs uppercase text-gray-400 font-bold tracking-wider">Commercial & Compliance</span>
+                        <div class="mt-2 space-y-2 pl-2">
+                            <a href="service.html?id=permits-fitness" class="block py-1 hover:text-primary">Permits & Fitness</a>
+                            <a href="service.html?id=pay-echallan" class="block py-1 hover:text-primary">Pay eChallan</a>
+                            <a href="service.html?id=pucc-status" class="block py-1 hover:text-primary">PUCC Status</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-6 border-t border-gray-200 space-y-3">
+                <a href="login.html" id="mobileLoginBtn" class="w-full bg-secondary text-white font-bold py-3 rounded-lg flex items-center justify-center space-x-2">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span>Unified Login</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================================================= -->
+    <!-- Main Dynamic Service Content Container                   -->
+    <!-- ======================================================= -->
+    <main id="main-content" class="flex-grow">
+        
+        <!-- Breadcrumb & Top Service Context Banner -->
+        <div class="bg-slate-100 border-b border-gray-200 py-3.5 px-4 lg:px-8">
+            <div class="max-w-[1280px] mx-auto flex flex-wrap items-center justify-between gap-2 text-xs">
+                <div class="flex items-center space-x-2 text-gray-600">
+                    <a href="index.html" class="hover:text-primary"><i class="fas fa-home"></i> Home</a>
+                    <i class="fas fa-chevron-right text-[10px] text-gray-400"></i>
+                    <span class="text-primary font-bold" id="breadcrumbService">Citizen Service Hub</span>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <span class="text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200 font-semibold flex items-center">
+                        <i class="fas fa-check-circle mr-1"></i> Contactless Aadhaar Enabled
+                    </span>
+                    <a href="index.html" class="text-primary font-bold hover:underline flex items-center">
+                        <i class="fas fa-arrow-left mr-1"></i> Back to Main Portal
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dynamic Service Root Render Target -->
+        <div id="service-dynamic-root" class="max-w-[1280px] mx-auto py-10 px-4 lg:px-8">
+            <!-- Rendered by JS based on ?id= query param -->
+        </div>
+
+    </main>
+
+    <!-- ======================================================= -->
+    <!-- Component 6: Footer                                     -->
+    <!-- ======================================================= -->
+    <footer class="bg-gray-900 text-gray-300 pt-14 pb-8 border-t-4 border-secondary mt-auto">
+        <div class="max-w-[1280px] mx-auto px-4 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <!-- Col 1: About -->
+                <div>
+                    <h4 class="text-white text-base font-bold mb-4 flex items-center">
+                        <i class="fas fa-info-circle text-secondary mr-2"></i> About & Assistance
+                    </h4>
+                    <ul class="space-y-2.5 text-sm">
+                        <li><a href="service.html?id=about-parivahan-sewa" class="hover:text-secondary transition min-h-[28px] flex items-center">About Parivahan Sewa</a></li>
+                        <li><a href="service.html?id=contact-national-helpdesk" class="hover:text-secondary transition min-h-[28px] flex items-center">Contact National Helpdesk</a></li>
+                        <li><a href="service.html?id=user-fees-charges" class="hover:text-secondary transition min-h-[28px] flex items-center">User Fees & Prescribed Charges</a></li>
+                        <li><a href="service.html?id=national-dashboards" class="hover:text-secondary transition min-h-[28px] flex items-center">National Performance Dashboards</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 2: Legal & Policies -->
+                <div>
+                    <h4 class="text-white text-base font-bold mb-4 flex items-center">
+                        <i class="fas fa-shield-alt text-secondary mr-2"></i> Legal & Policies
+                    </h4>
+                    <ul class="space-y-2.5 text-sm">
+                        <li><a href="service.html?id=website-privacy-policy" class="hover:text-secondary transition min-h-[28px] flex items-center">Website Privacy Policy</a></li>
+                        <li><a href="service.html?id=terms-of-service-usage" class="hover:text-secondary transition min-h-[28px] flex items-center">Terms of Service & Usage</a></li>
+                        <li><a href="service.html?id=hyperlinking-policy" class="hover:text-secondary transition min-h-[28px] flex items-center">Hyperlinking Policy</a></li>
+                        <li><a href="service.html?id=accessibility-statement-wcag-2-1" class="hover:text-secondary transition min-h-[28px] flex items-center">Accessibility Statement (WCAG 2.1)</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: External Links -->
+                <div>
+                    <h4 class="text-white text-base font-bold mb-4 flex items-center">
+                        <i class="fas fa-external-link-alt text-secondary mr-2"></i> Government Apex Links
+                    </h4>
+                    <ul class="space-y-2.5 text-sm">
+                        <li><a href="service.html?id=ministry-of-road-transport-highways-morth" class="hover:text-secondary transition min-h-[28px] flex items-center">Ministry of Road Transport & Highways (MoRTH)</a></li>
+                        <li><a href="service.html?id=national-informatics-centre-nic" class="hover:text-secondary transition min-h-[28px] flex items-center">National Informatics Centre (NIC)</a></li>
+                        <li><a href="service.html?id=india-gov-in-national-portal" class="hover:text-secondary transition min-h-[28px] flex items-center">India.gov.in (National Portal)</a></li>
+                        <li><a href="service.html?id=digital-india-initiative" class="hover:text-secondary transition min-h-[28px] flex items-center">Digital India Initiative</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 4: Press & Media Archive -->
+                <div>
+                    <h4 class="text-white text-base font-bold mb-4 flex items-center">
+                        <i class="fas fa-newspaper text-secondary mr-2"></i> Media & Archives
+                    </h4>
+                    <ul class="space-y-2.5 text-sm">
+                        <li><a href="service.html?id=consolidated-media-archive-press-releases" class="hover:text-secondary transition min-h-[28px] flex items-center">Consolidated Media Archive & Press Releases</a></li>
+                        <li><a href="service.html?id=notifications-circulars-gazettes" class="hover:text-secondary transition min-h-[28px] flex items-center">Notifications, Circulars & Gazettes</a></li>
+                        <li><a href="service.html?id=motor-vehicle-acts-rules" class="hover:text-secondary transition min-h-[28px] flex items-center">Central Motor Vehicles Rules (CMVR)</a></li>
+                        <li><a href="service.html?id=site-map" class="hover:text-secondary transition min-h-[28px] flex items-center">Site Map</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-xs space-y-4 md:space-y-0 text-gray-400">
+                <p>&copy; 2026 Ministry of Road Transport & Highways, Government of India. Designed with WCAG 2.1 AA Compliance.</p>
+                <div class="flex items-center space-x-6">
+                    <span><i class="far fa-calendar-alt mr-1"></i> Last Updated: 29 Aug 2026</span>
+                    <span><i class="fas fa-users mr-1"></i> Visitor Count: 148,932,104</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="mock_data.js"></script>
+    <script src="knowledge_base.js"></script>
+    <script src="chatbot.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

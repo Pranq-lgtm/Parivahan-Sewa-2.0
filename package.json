@@ -1,0 +1,22 @@
+{
+  "name": "parivahan-seva-redesign",
+  "version": "1.0.0",
+  "description": "Redesigned citizen-centric portal for Parivahan Sewa (MoRTH)",
+  "main": "src/backend/server.js",
+  "scripts": {
+    "start": "node src/backend/server.js",
+    "dev": "node --watch src/backend/server.js"
+  },
+  "keywords": [
+    "parivahan",
+    "transport",
+    "morth",
+    "ui-redesign",
+    "tailwind"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

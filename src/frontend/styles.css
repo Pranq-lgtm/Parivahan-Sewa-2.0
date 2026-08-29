@@ -1,0 +1,166 @@
+/* Base styles and typography */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+    --font-scale: 1rem;
+}
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: #f8fafc;
+    color: #334155;
+    font-size: var(--font-scale);
+    transition: background-color 0.2s ease, color 0.2s ease, font-size 0.15s ease;
+}
+
+/* High Contrast Mode */
+body.high-contrast {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+}
+
+body.high-contrast header,
+body.high-contrast .bg-white,
+body.high-contrast .bg-gray-100 {
+    background-color: #121212 !important;
+    color: #ffffff !important;
+    border-color: #333333 !important;
+}
+
+body.high-contrast .text-textDark,
+body.high-contrast .text-gray-800,
+body.high-contrast .text-gray-700,
+body.high-contrast .text-gray-600,
+body.high-contrast .text-gray-500 {
+    color: #f1f5f9 !important;
+}
+
+body.high-contrast a {
+    color: #fde047 !important;
+}
+
+body.high-contrast a:hover {
+    text-decoration: underline !important;
+}
+
+body.high-contrast .hero-bg {
+    background: #0f172a !important;
+    border-bottom: 2px solid #ea580c;
+}
+
+body.high-contrast input,
+body.high-contrast select {
+    background-color: #1e293b !important;
+    color: #ffffff !important;
+    border-color: #fde047 !important;
+}
+
+/* Hero background styling */
+.hero-bg {
+    background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #3b82f6 100%);
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-bg::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+    background-size: 20px 20px;
+    pointer-events: none;
+}
+
+/* Alert Ticker Animation */
+.ticker-wrap {
+    width: 100%;
+    overflow: hidden;
+    background-color: #fffbeb;
+    border-bottom: 1px solid #fef3c7;
+    padding: 10px 0;
+    color: #9a3412;
+    font-size: 0.875rem;
+    white-space: nowrap;
+}
+
+.ticker-wrap:hover .ticker {
+    animation-play-state: paused;
+}
+
+.ticker {
+    display: inline-block;
+    animation: ticker 30s linear infinite;
+}
+
+@keyframes ticker {
+    0% { transform: translate3d(100%, 0, 0); }
+    100% { transform: translate3d(-100%, 0, 0); }
+}
+
+/* Interactive Cards */
+.card-hover {
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 20px -4px rgba(30, 58, 138, 0.1), 0 4px 8px -2px rgba(0, 0, 0, 0.04);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Hide scrollbar utility */
+.scrollbar-none::-webkit-scrollbar {
+    display: none;
+}
+.scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Focus outline accessibility */
+:focus-visible {
+    outline: 2px solid #ea580c;
+    outline-offset: 2px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.25s ease-out forwards;
+}
+
+/* Pulse Glow for AI widget */
+@keyframes pulseGlow {
+    0%, 100% { box-shadow: 0 0 15px rgba(30, 58, 138, 0.4); }
+    50% { box-shadow: 0 0 25px rgba(234, 88, 12, 0.6); }
+}
+
+.pulse-glow {
+    animation: pulseGlow 3s infinite;
+}

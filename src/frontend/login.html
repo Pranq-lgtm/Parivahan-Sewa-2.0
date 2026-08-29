@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unified Login - Parivahan Sewa Portal</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    
+    <!-- Tailwind CSS for modern utility-first styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome for standard icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e3a8a',   // Navy Blue (Trust, official Govt identity)
+                        secondary: '#ea580c', // Deep Saffron/Orange (Action buttons, highlights)
+                        accent: '#059669',    // Emerald Green (Success states, verification)
+                        bgLight: '#f8fafc',   // Off-White/Light Gray
+                        textDark: '#334155',  // Dark Slate (High contrast for readability)
+                        topbar: '#1e293b'     // Dark slate topbar
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Roboto', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="antialiased flex flex-col min-h-screen bg-bgLight text-textDark">
+
+    <!-- ======================================================= -->
+    <!-- Component 1: Utility Top-Bar                            -->
+    <!-- ======================================================= -->
+    <div class="bg-topbar text-gray-200 text-xs min-h-[32px] flex items-center justify-between px-4 lg:px-8 border-b border-slate-700">
+        <div class="flex items-center space-x-3 hidden md:flex">
+            <a href="index.html" class="hover:text-white flex items-center px-1 font-medium">
+                <i class="fas fa-home mr-1 text-orange-400"></i> Main Portal Home
+            </a>
+            <span class="text-gray-600">|</span>
+            <div class="flex items-center space-x-1 border-l border-gray-600 pl-3 h-6">
+                <button id="btnDecreaseText" class="hover:text-white px-1 font-semibold text-xs" aria-label="Decrease Text Size">A-</button>
+                <button id="btnNormalText" class="hover:text-white px-1 font-semibold text-xs" aria-label="Normal Text Size">A</button>
+                <button id="btnIncreaseText" class="hover:text-white px-1 font-semibold text-xs" aria-label="Increase Text Size">A+</button>
+            </div>
+            <button id="btnHighContrast" class="hover:text-white border-l border-gray-600 pl-3 flex items-center px-1 text-xs" aria-label="High Contrast">
+                <i class="fas fa-adjust mr-1.5 text-yellow-400"></i> High Contrast
+            </button>
+        </div>
+
+        <div class="flex items-center space-x-3 ml-auto">
+            <span class="text-[11px] text-gray-300"><i class="fas fa-lock text-emerald-400 mr-1"></i> Secure 256-Bit SSL Transport Gateway</span>
+        </div>
+    </div>
+
+    <!-- ======================================================= -->
+    <!-- Component 2: Main Header                                -->
+    <!-- ======================================================= -->
+    <header class="sticky top-0 z-40 bg-white shadow-md min-h-[72px] flex items-center justify-between px-4 lg:px-8 border-b border-gray-100">
+        <!-- Logo Area -->
+        <a href="index.html" class="flex items-center space-x-3 cursor-pointer py-2 focus:ring-2 focus:ring-primary rounded">
+            <div class="w-12 h-14 bg-blue-50 border border-blue-200 flex flex-col items-center justify-center rounded shadow-xs">
+                <i class="fas fa-landmark text-primary text-xl"></i>
+                <span class="text-[8px] font-bold text-primary tracking-tighter mt-0.5">सत्यमेव जयते</span>
+            </div>
+            <div>
+                <span class="text-2xl font-extrabold text-primary tracking-tight leading-none flex items-center">
+                    Parivahan <span class="text-secondary ml-1 font-semibold">Sewa</span>
+                </span>
+                <p class="text-[10px] text-gray-500 font-semibold uppercase tracking-wider hidden sm:block mt-0.5">
+                    Ministry of Road Transport & Highways, Govt. of India
+                </p>
+            </div>
+        </a>
+
+        <!-- Header Nav Links -->
+        <div class="flex items-center space-x-4">
+            <a href="index.html" class="text-sm font-semibold text-primary hover:text-secondary transition flex items-center space-x-1.5">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Portal</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- ======================================================= -->
+    <!-- Main Content: Login Screen with Test Credentials        -->
+    <!-- ======================================================= -->
+    <main id="main-content" class="flex-grow py-12 px-4 sm:px-6 lg:px-8 max-w-[1280px] mx-auto w-full">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            <!-- Left Column: Google / Custom Authentication Card -->
+            <div class="lg:col-span-5 bg-white rounded-2xl shadow-xl p-6 sm:p-8 border border-gray-200">
+                <div class="text-center mb-6">
+                    <div class="w-14 h-14 bg-blue-50 border border-blue-200 rounded-full flex items-center justify-center mx-auto mb-3 shadow-inner">
+                        <i class="fas fa-fingerprint text-primary text-2xl"></i>
+                    </div>
+                    <h1 class="text-2xl font-extrabold text-primary">Unified Portal Sign In</h1>
+                    <p class="text-gray-500 text-xs mt-1">Single sign-on for Sarathi (DL), Vahan (RC), eChallan & Permits</p>
+                </div>
+
+                <!-- Google Sign-in Primary Button -->
+                <div class="space-y-4">
+                    <button id="googleSignInBtn" class="w-full bg-white border-2 border-gray-200 hover:border-primary hover:bg-blue-50/50 text-gray-800 font-bold py-3.5 px-4 rounded-xl flex items-center justify-center space-x-3 transition shadow-sm group">
+                        <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24">
+                            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                        </svg>
+                        <span class="group-hover:text-primary transition">Continue with Google Account</span>
+                    </button>
+                    
+                    <div class="relative flex py-2 items-center">
+                        <div class="flex-grow border-t border-gray-200"></div>
+                        <span class="flex-shrink-0 mx-4 text-gray-400 text-[11px] uppercase font-bold tracking-wider">Or Mobile / Aadhaar OTP</span>
+                        <div class="flex-grow border-t border-gray-200"></div>
+                    </div>
+                    
+                    <!-- Standard Credentials Form -->
+                    <form id="standardLoginForm" class="space-y-4">
+                        <div>
+                            <label for="loginIdentifier" class="block text-xs font-bold text-gray-700 mb-1">Mobile / Aadhaar / Email</label>
+                            <div class="relative">
+                                <i class="fas fa-user absolute left-3.5 top-3.5 text-gray-400 text-sm"></i>
+                                <input type="text" id="loginIdentifier" value="9876543210" placeholder="Enter registered 10-digit mobile or Aadhaar" class="w-full border border-gray-300 rounded-lg py-2.5 pl-10 pr-4 text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm bg-slate-50 focus:bg-white transition" required>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <label for="loginPassword" class="block text-xs font-bold text-gray-700">Password / OTP PIN</label>
+                                <a href="service.html?id=forgot-password" class="text-xs text-primary hover:underline font-medium">Forgot?</a>
+                            </div>
+                            <div class="relative">
+                                <i class="fas fa-key absolute left-3.5 top-3.5 text-gray-400 text-sm"></i>
+                                <input type="password" id="loginPassword" value="••••••••" placeholder="Enter password or OTP" class="w-full border border-gray-300 rounded-lg py-2.5 pl-10 pr-4 text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm bg-slate-50 focus:bg-white transition" required>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between text-xs text-gray-600">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" checked class="rounded text-primary focus:ring-primary h-4 w-4">
+                                <span class="ml-2">Remember this device</span>
+                            </label>
+                            <span class="text-emerald-700 font-semibold"><i class="fas fa-check-circle mr-1"></i> OTP Auto-Verified</span>
+                        </div>
+
+                        <button type="submit" class="w-full bg-primary hover:bg-blue-900 text-white font-bold py-3 px-4 rounded-xl transition shadow-md flex items-center justify-center space-x-2">
+                            <span>Sign In to Dashboard</span>
+                            <i class="fas fa-arrow-right text-xs"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Right Column: Interactive Mock Test Credentials Panel -->
+            <div class="lg:col-span-7 space-y-6">
+                
+                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-2xl p-6 shadow-sm">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center space-x-2.5">
+                            <div class="w-8 h-8 bg-primary text-white rounded-lg flex items-center justify-center font-bold text-sm shadow-xs">
+                                <i class="fas fa-bolt text-yellow-300"></i>
+                            </div>
+                            <div>
+                                <h2 class="text-lg font-bold text-primary">1-Click Test Demo Personas</h2>
+                                <p class="text-xs text-gray-600">Instantly switch between roles to preview different dashboards and credentials.</p>
+                            </div>
+                        </div>
+                        <span class="bg-secondary text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Demo Ready</span>
+                    </div>
+
+                    <!-- 4 Persona Cards Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5" id="persona-cards-grid">
+                        
+                        <!-- Persona 1: Citizen -->
+                        <div class="bg-white rounded-xl p-4 border border-blue-200 hover:border-primary hover:shadow-md transition cursor-pointer persona-card" data-persona="citizen">
+                            <div class="flex items-start justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm shrink-0">
+                                        RK
+                                    </div>
+                                    <div>
+                                        <h3 class="font-bold text-sm text-gray-800">Rajesh Kumar</h3>
+                                        <span class="text-[10px] bg-blue-100 text-blue-800 font-bold px-1.5 py-0.5 rounded">Citizen Owner</span>
+                                    </div>
+                                </div>
+                                <i class="fas fa-sign-in-alt text-gray-400 group-hover:text-primary"></i>
+                            </div>
+                            <div class="mt-3 text-[11px] space-y-1 text-gray-600 border-t pt-2 border-gray-100">
+                                <p><strong>Vehicle:</strong> <code class="bg-slate-100 text-primary px-1 rounded">DL01AB1234</code></p>
+                                <p><strong>DL No:</strong> <code class="bg-slate-100 text-primary px-1 rounded">DL-1420110012345</code></p>
+                                <p class="text-amber-700"><strong>Pending:</strong> 1 eChallan (₹2,000)</p>
+                            </div>
+                            <button class="w-full mt-3 bg-blue-50 hover:bg-primary hover:text-white text-primary text-xs font-bold py-1.5 rounded-lg border border-blue-200 transition flex items-center justify-center space-x-1.5">
+                                <span>Log In as Citizen</span>
+                                <i class="fas fa-arrow-right text-[10px]"></i>
+                            </button>
+                        </div>
+
+                        <!-- Persona 2: Commercial Fleet -->
+                        <div class="bg-white rounded-xl p-4 border border-orange-200 hover:border-secondary hover:shadow-md transition cursor-pointer persona-card" data-persona="commercial">
+                            <div class="flex items-start justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 rounded-full bg-orange-600 text-white flex items-center justify-center font-bold text-sm shrink-0">
+                                        VS
+                                    </div>
+                                    <div>
+                                        <h3 class="font-bold text-sm text-gray-800">Vikram Singh</h3>
+                                        <span class="text-[10px] bg-orange-100 text-orange-800 font-bold px-1.5 py-0.5 rounded">Fleet Operator</span>
+                                    </div>
+                                </div>
+                                <i class="fas fa-sign-in-alt text-gray-400 group-hover:text-secondary"></i>
+                            </div>
+                            <div class="mt-3 text-[11px] space-y-1 text-gray-600 border-t pt-2 border-gray-100">
+                                <p><strong>Fleet:</strong> 14 Heavy Goods Trucks</p>
+                                <p><strong>Primary RC:</strong> <code class="bg-slate-100 text-orange-800 px-1 rounded">HR26DK8899</code></p>
+                                <p class="text-emerald-700"><strong>Permits:</strong> 8 National All-India</p>
+                            </div>
+                            <button class="w-full mt-3 bg-orange-50 hover:bg-secondary hover:text-white text-secondary text-xs font-bold py-1.5 rounded-lg border border-orange-200 transition flex items-center justify-center space-x-1.5">
+                                <span>Log In as Transporter</span>
+                                <i class="fas fa-arrow-right text-[10px]"></i>
+                            </button>
+                        </div>
+
+                        <!-- Persona 3: RTO Officer -->
+                        <div class="bg-white rounded-xl p-4 border border-indigo-200 hover:border-indigo-700 hover:shadow-md transition cursor-pointer persona-card" data-persona="officer">
+                            <div class="flex items-start justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 rounded-full bg-indigo-700 text-white flex items-center justify-center font-bold text-sm shrink-0">
+                                        AS
+                                    </div>
+                                    <div>
+                                        <h3 class="font-bold text-sm text-gray-800">Insp. Anjali Sharma</h3>
+                                        <span class="text-[10px] bg-indigo-100 text-indigo-800 font-bold px-1.5 py-0.5 rounded">RTO Inspector</span>
+                                    </div>
+                                </div>
+                                <i class="fas fa-sign-in-alt text-gray-400"></i>
+                            </div>
+                            <div class="mt-3 text-[11px] space-y-1 text-gray-600 border-t pt-2 border-gray-100">
+                                <p><strong>Station:</strong> North Delhi Mall Road RTO</p>
+                                <p><strong>Badge:</strong> <code class="bg-slate-100 text-indigo-900 px-1 rounded">RTO-DL01-884</code></p>
+                                <p class="text-blue-700"><strong>Tasks:</strong> 28 Pending Approvals</p>
+                            </div>
+                            <button class="w-full mt-3 bg-indigo-50 hover:bg-indigo-700 hover:text-white text-indigo-800 text-xs font-bold py-1.5 rounded-lg border border-indigo-200 transition flex items-center justify-center space-x-1.5">
+                                <span>Log In as RTO Officer</span>
+                                <i class="fas fa-arrow-right text-[10px]"></i>
+                            </button>
+                        </div>
+
+                        <!-- Persona 4: Automotive Dealer -->
+                        <div class="bg-white rounded-xl p-4 border border-emerald-200 hover:border-emerald-700 hover:shadow-md transition cursor-pointer persona-card" data-persona="dealer">
+                            <div class="flex items-start justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-sm shrink-0">
+                                        AP
+                                    </div>
+                                    <div>
+                                        <h3 class="font-bold text-sm text-gray-800">Arun Patel</h3>
+                                        <span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-1.5 py-0.5 rounded">Apex Motors</span>
+                                    </div>
+                                </div>
+                                <i class="fas fa-sign-in-alt text-gray-400"></i>
+                            </div>
+                            <div class="mt-3 text-[11px] space-y-1 text-gray-600 border-t pt-2 border-gray-100">
+                                <p><strong>Trade Cert:</strong> <code class="bg-slate-100 text-emerald-800 px-1 rounded">TC-2024-ND-492</code></p>
+                                <p><strong>OEM Maker:</strong> Tata Motors Authorized</p>
+                                <p class="text-emerald-700"><strong>Pos:</strong> Point-of-Sale Registration</p>
+                            </div>
+                            <button class="w-full mt-3 bg-emerald-50 hover:bg-emerald-700 hover:text-white text-emerald-800 text-xs font-bold py-1.5 rounded-lg border border-emerald-200 transition flex items-center justify-center space-x-1.5">
+                                <span>Log In as Dealer</span>
+                                <i class="fas fa-arrow-right text-[10px]"></i>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Security & Privacy Notice -->
+                <div class="bg-white rounded-xl p-4 border border-gray-200 text-xs text-gray-600 flex items-start space-x-3">
+                    <i class="fas fa-shield-alt text-emerald-600 text-xl shrink-0 mt-0.5"></i>
+                    <div>
+                        <strong class="text-gray-800 font-bold">Government Security Policy:</strong>
+                        <p class="mt-0.5">Your sessions are protected under Aadhaar e-KYC Security Guidelines. Never share your OTP or MPIN with unauthorized persons. Transport services are fully digitized for zero RTO footprint.</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- ======================================================= -->
+    <!-- Component 6: Footer                                     -->
+    <!-- ======================================================= -->
+    <footer class="bg-gray-900 text-gray-300 pt-10 pb-6 border-t-4 border-secondary mt-auto">
+        <div class="max-w-[1280px] mx-auto px-4 lg:px-8 text-center text-xs text-gray-400 space-y-2">
+            <p>&copy; 2026 Ministry of Road Transport & Highways, Government of India. Designed with WCAG 2.1 AA Compliance.</p>
+            <p class="text-gray-500">Official Portal: parivahan.gov.in | National Transport Helpline: 0120-4925555</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="mock_data.js"></script>
+    <script src="knowledge_base.js"></script>
+    <script src="chatbot.js"></script>
+    <script src="app.js"></script>
+
+    <script>
+        // Dedicated Login Handlers for Persona Cards & Google Sign In
+        document.addEventListener('DOMContentLoaded', () => {
+            const personaCards = document.querySelectorAll('.persona-card');
+            
+            personaCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const personaKey = card.getAttribute('data-persona');
+                    if (window.ParivahanMockData && window.ParivahanMockData.personas) {
+                        const persona = window.ParivahanMockData.personas.find(p => p.id === personaKey);
+                        if (persona) {
+                            localStorage.setItem('mockUser', JSON.stringify(persona));
+                            window.location.href = 'index.html';
+                        }
+                    }
+                });
+            });
+
+            const standardForm = document.getElementById('standardLoginForm');
+            if (standardForm) {
+                standardForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    // Default login as Rajesh Kumar
+                    const defaultUser = window.ParivahanMockData?.personas?.[0] || {
+                        id: 'citizen',
+                        name: 'Rajesh Kumar',
+                        email: 'rajesh.kumar@citizen.nic.in',
+                        role: 'Citizen User',
+                        primaryVehicle: 'DL01AB1234',
+                        primaryDL: 'DL-1420110012345'
+                    };
+                    localStorage.setItem('mockUser', JSON.stringify(defaultUser));
+                    window.location.href = 'index.html';
+                });
+            }
+        });
+    </script>
+</body>
+</html>
