@@ -1,4 +1,4 @@
-# Parivahan Sewa Redesign (Citizen Transport Portal)
+# Parivahan Sewa 2.O (Citizen Transport Portal)
 
 A modern, task-based, accessible redesign of India's **Parivahan Sewa** portal adhering to **WCAG 2.1 AA** guidelines.
 
@@ -7,7 +7,7 @@ A modern, task-based, accessible redesign of India's **Parivahan Sewa** portal a
 ## 📁 Project Structure
 
 ```text
-Parivahan Seva Redesign/
+Parivahan Seva 2.O/
 ├── package.json               # Project manifest and scripts
 ├── README.md                  # Documentation and run instructions
 └── src/
