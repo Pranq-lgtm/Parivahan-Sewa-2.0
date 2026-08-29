@@ -113,10 +113,14 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(frontendPath, 'index.html'));
 });
 
-// Start Server
-app.listen(PORT, () => {
-    console.log(`====================================================`);
-    console.log(` Parivahan Sewa Server running on http://localhost:${PORT}`);
-    console.log(` Static Assets: ${frontendPath}`);
-    console.log(`====================================================`);
-});
+// Start Server (only when run directly or locally)
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+    app.listen(PORT, () => {
+        console.log(`====================================================`);
+        console.log(` Parivahan Sewa Server running on http://localhost:${PORT}`);
+        console.log(` Static Assets: ${frontendPath}`);
+        console.log(`====================================================`);
+    });
+}
+
+module.exports = app;
